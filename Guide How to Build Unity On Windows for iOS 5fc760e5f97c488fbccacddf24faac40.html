@@ -1,0 +1,683 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Guide How to Build Unity On Windows for iOS</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.highlight-orange {
+	color: rgba(200, 112, 34, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.highlight-yellow {
+	color: rgba(181, 126, 51, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(252, 237, 231, 1);
+}
+.highlight-yellow_background {
+	background: rgba(245, 241, 229, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 1);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.block-color-orange {
+	color: rgba(200, 112, 34, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.block-color-yellow {
+	color: rgba(181, 126, 51, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(252, 237, 231, 1);
+}
+.block-color-yellow_background {
+	background: rgba(245, 241, 229, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 1);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(244, 231, 202, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="93857256-8b80-4eb7-9067-942b48b738a8" class="page sans"><header><h1 class="page-title">Guide How to Build Unity On Windows for iOS</h1></header><div class="page-body"><ul id="b78921d9-8e6d-4d42-9497-1cb909d6d436" class="toggle"><li><details open=""><summary><strong> Table of contents </strong></summary><nav id="9e4f11c4-f837-4e4f-a318-1335145b67b9" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#e3b8756a-f82e-466d-8453-0c7aaf058872">Step 1 </a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#df59cbd9-c53b-4c2d-bdee-40e2b5fa1315">Unity ID</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d44d2029-7378-443c-b2a8-77b5945243ef">Sign in with your Unity ID to Unity Hub</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#8d036daa-dc3b-4d55-a8cd-4182ed0e0cfe">Set 2 </a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9cb79a73-3d3a-4bef-bf55-8149d27c8078">Create a GitHub</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#429edbfb-a840-4ed2-9cb5-3a18ac975dd2">Download GitHub</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#d0b3f04f-ceda-41cd-bf70-ec3d6390a212">Step 3</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#fb08b26d-0f2c-4861-87ae-3cfd895f9f09">Create Apple Certificates</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#c6c94f20-572c-4676-9ea7-c86bf9f8174e">Create key</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#34bfce49-678f-45d6-9160-fce060713e80">Create an Apple ID for your app</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#1b8d1efe-b484-4888-b575-626a523fc744">Adding our phone as a tester device </a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#47c10fef-2461-4f63-b92b-cb9a2fbd2036">Creating Provisioning Profile</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#8e8055e6-8659-4f30-9b0d-81d44f18e050">Creating .p12 certificate</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ee965ebc-e678-4c08-ade6-db4e5836be64">Step 4</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#29bdd2d8-ef20-44a0-9d64-b3787ef62850">Create/open your Unity project.</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2b2b65f7-f95a-4871-8a0a-44b143cb2b7d">Setting up project Build Setting</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#fb4ae375-9195-487a-8f3c-6c635a6c0916">Step 5</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#8d3f701a-d948-4287-bd77-072303eedec0">Activate Could Build</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#e4f5d9f3-3de9-4923-828c-45e9aab39d3b">Step 6</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#df3a7c18-8601-4a99-829b-6a83e8f2ab18">Uploading our Unity Project to Git</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#dc2a08b4-46bb-4a11-ae8f-968357f912ab">Step 7</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#25124e88-c040-4584-852f-3c26e118067c">Setting Up Unity Could Build</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#8621523b-f4d8-43c5-a519-ce9f135e096b">Checking the status of Build</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4d422ab5-f64a-4169-a869-02110b838a5d">Build Successful, Phone Install</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#d1b9e762-02e1-4d05-b9ae-a3aa75e69dd7">Step 8</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a50d2929-5d4d-42aa-aaca-2d416beef4e2">How to build the project again</a></div></nav></details></li></ul><h1 id="e3b8756a-f82e-466d-8453-0c7aaf058872" class="">Step 1 </h1><h2 id="df59cbd9-c53b-4c2d-bdee-40e2b5fa1315" class="">Unity ID</h2><p id="225ef228-b73f-4ba3-8e35-a7d35640233a" class="">Make sure you have made a Unity ID, if you don&#x27;t have one you can click on the link bellow and make an account.</p><figure id="8b159872-f2aa-41f1-996f-d8d921a17798"><a href="https://id.unity.com/en/conversations/5b084117-1746-4386-ae3c-dc2b7a9ef7fc01bf" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">https://id.unity.com/en/conversations/5b084117-1746-4386-ae3c-dc2b7a9ef7fc01bf</div></div></a></figure><h2 id="d44d2029-7378-443c-b2a8-77b5945243ef" class="">Sign in with your Unity ID to Unity Hub</h2><p id="d6e0dede-e569-42f8-8b60-462fede9a643" class="">Open Unity Hub → Top right corner → Click on Avatar Icon →  Sign In</p><figure id="5fc760e5-f97c-488f-bcca-cddf24faac40" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_114214.png"><img style="width:269px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_114214.png"/></a></figure><p id="00be7ca0-f134-4d19-a547-8e4b70200a97" class="">
+</p><h1 id="8d036daa-dc3b-4d55-a8cd-4182ed0e0cfe" class="">Set 2 </h1><h2 id="9cb79a73-3d3a-4bef-bf55-8149d27c8078" class="">Create a GitHub</h2><p id="cb4cb9c7-55f0-42b9-b5c1-4a4304786ac6" class="">In order build Unity iOS application on Windows, we are going to need to use GitHub. Click on the link bellow and create a GitHub account.</p><figure id="23814258-5577-42f1-9a3b-a0f6b6d5b406"><a href="https://github.com/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">GitHub: Where the world builds software</div><div class="bookmark-description">GitHub is where over 65 million developers shape the future of software, together. Contribute to the open source community, manage your Git repositories, review code like a pro, track bugs and features, power your CI/CD and DevOps workflows, and secure code before you commit it.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/</div></div><img src="https://github.githubassets.com/images/modules/site/social-cards/github-social.png" class="bookmark-image"/></a></figure><p id="30209acf-fbcf-466d-b905-5c49249a0732" class="">
+</p><h2 id="429edbfb-a840-4ed2-9cb5-3a18ac975dd2" class="">Download GitHub</h2><p id="c1e5ba4d-adc4-41c0-a523-c88638946a2a" class="">Next step is to download GitHub application and install it on your Windows computer. Click on the link bellow to download the application.</p><figure id="5053887b-4252-4cd1-97e1-0500c1d2e639"><a href="https://desktop.github.com/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">GitHub Desktop</div><div class="bookmark-description">Checkout branches with pull requests and view CI statuses See all open pull requests for your repositories and check them out as if they were a local branch, even if they&#x27;re from upstream branches or forks. See which pull requests pass commit status checks, too!</div></div><div class="bookmark-href"><img src="https://github.githubassets.com/favicon.ico" class="icon bookmark-icon"/>https://desktop.github.com/</div></div><img src="https://desktop.github.com/images/upgrade/pr-checks.png" class="bookmark-image"/></a></figure><p id="b291f3cc-6216-4466-9936-275921b13407" class="">Once you downloaded the application sign in to your account inside the GitHub app.</p><h1 id="d0b3f04f-ceda-41cd-bf70-ec3d6390a212" class="">Step 3</h1><h2 id="fb08b26d-0f2c-4861-87ae-3cfd895f9f09" class="">Create Apple Certificates</h2><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="99c30531-8a6f-4f29-8a5c-9e3cb5fc0ed3"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Note: for this section you need to have apple developer account or be part of a team that has apple developer account.
+
+University can provide you with apple developers account by adding your iCloud account to University developer account so you don&#x27;t need to buy one.</div></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="cbe9f333-e2e4-49c3-87a3-9429ff8e9849"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">You also need to install git for Windows, click on <a href="https://gitforwindows.org/">https://gitforwindows.org/</a> and download the application and install. Follow the default installation setting you don&#x27;t need to change any thing. Once the installation has finished you should have a application called Git Bash. If you open it you should get a Windows similar to picture below.</div></figure><figure id="b6dd45a2-8e2b-4fad-ad3c-3c9f2bfecce0" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Untitled.png"><img style="width:570px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Untitled.png"/></a></figure><p id="020f24e2-e2c5-4cf2-bb37-2ca38cc5e253" class="">Create a new fold call it Apple Certificates → Right Click on it → Git Bash Here</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="02eb2045-c387-4396-9561-b557e4bc0ebd"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">If you are on Windows 11 → Right Click on the folder → Show more options →Select &quot;Git Bash Here&quot;</div></figure><figure id="9d68853f-0791-45c3-8204-7b3f02e84611" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_122459.png"><img style="width:286px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_122459.png"/></a></figure><h3 id="c6c94f20-572c-4676-9ea7-c86bf9f8174e" class="">Create key</h3><p id="314fadd2-f4aa-47c7-b388-008e1f57a1e6" class="">Now we need to create .key file, in order to that run the following command in Git Bash that we opened.</p><pre id="1c631dcb-6d66-495c-ae57-1dc5ce1bbf37" class="code"><code>openssl genrsa -out YourApp.key 2048</code></pre><p id="2c478f98-579b-4900-b215-df205b3cba23" class="">
+</p><p id="b43cf774-2336-47c2-a22c-836570ca5ff5" class="">Yous should get a message similar to below </p><figure id="c140840c-d470-4f27-a5f0-2c79be9a5867" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Untitled%201.png"><img style="width:560px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Untitled%201.png"/></a></figure><p id="129060a6-df66-49c7-9553-bba3a06777b3" class="">And a new file called <a href="http://YourApp.ke">YourApp.ke</a>y should be created in your Apple Certificates folder.</p><p id="60172f5d-8b7e-480f-bda5-0028c20c35df" class="">
+</p><p id="2b1f3d55-e7dd-44d4-9380-84e237ae04dc" class="">Now run the command bellow</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="cc4b851b-a17a-4e1f-8eed-d773e6557ae4"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Note the code highlighted in red you need to change that with your information
+<mark class="highlight-red">youremail → Write you email here
+yourname → Write you name here
+GB → Set your region if you are in the UK leave it as GB</mark></div></figure><pre id="fa6f5a85-7f5d-4c50-bcf7-1fcac9079fb4" class="code"><code>openssl req -new -key YourApp.key -out YourApp.certSigningRequest -subj &quot;//emailAddress=youremail, CN=yourname, C=GB&quot;</code></pre><p id="74803c57-bc82-4208-83d0-3d9bd0dc58a7" class="">This command will create another file in your Apple Certificate Folder called &quot;YourApp.certSigningRequest&quot;</p><p id="ce9dea11-2b0d-4d16-9e48-f50595beee49" class="">
+</p><p id="9bc6552a-ee3b-4d92-a801-c3bddd8d0a6c" class="">Now go to Apple developer console click on link bellow</p><figure id="f36c0ec4-fd51-41cd-a9a7-13596cd86e07"><a href="https://developer.apple.com/account/resources/certificates/list" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Sign in with your Apple ID</div><div class="bookmark-description">Sign in with your Apple ID</div></div><div class="bookmark-href"><img src="https://appleid.cdn-apple.com/daw/IDMSWebAuth/static/12Oct2021/images/favicon.ico" class="icon bookmark-icon"/>https://developer.apple.com/account/resources/certificates/list</div></div></a></figure><p id="9b46ebab-0250-4989-820b-300179477755" class="">
+</p><p id="7b99d434-cab8-4def-a564-5c9c9544750f" class="">Go to Certificates → Click on Plus icon to create a new certificate → </p><figure id="cd6bd8d9-2d1f-48a9-8a0e-792daa9f1e27" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_123806.png"><img style="width:1067px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_123806.png"/></a></figure><p id="b8ae0bb3-bccf-4a2f-8307-689dd1034505" class="">Select Apple Development (&quot;This covers building application for iOS, macOS and etc.&quot;) → Click on Continue</p><figure id="1eeaeaec-ce35-4ea6-a94b-0de9471eb581" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Untitled%202.png"><img style="width:893px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Untitled%202.png"/></a></figure><p id="ecb12162-a9c0-4066-b3c6-e7de3853c5da" class="">
+</p><p id="f7f03271-2eab-4aa2-baea-27c9ffa13783" class="">Now we need upload the YourApp.certSigningRequest file that we created this should be in your Apple Certificate Folder. Once the file uploaded click on continue.</p><figure id="f1cefe2a-b25f-4ac5-b622-8fa291b4dac7" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_124431.png"><img style="width:896px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_124431.png"/></a></figure><p id="17c739c3-4735-48cd-8729-b44467e2dde3" class="">Apple will generate a certificate for you. Then you can download this. Click on Download.</p><p id="7f9c13fd-c07c-4408-94a7-709def0dc096" class="">The file downloaded is called &quot;development.cer&quot; move this to Apple Certificate Folder.</p><p id="b3fc1560-7f3d-45d3-9a8c-03e0deff5a95" class="">
+</p><h2 id="34bfce49-678f-45d6-9160-fce060713e80" class="">Create an Apple ID for your app</h2><p id="b7123f8c-e2e7-4ac1-bbe0-fdb8ccb6d88f" class="">Go to <a href="https://developer.apple.com/account/resources/identifiers/list">apple developer console</a> → Identifiers section → Click on Plus Icon → Select App IDs → Click on Continue → Select App for Type → Click on Continue →</p><p id="63b16de2-c18b-478a-9afa-a297e9b18ff0" class="">fill in the information</p><p id="aca26160-308d-4b58-ab9e-298254cd15e8" class="">Description: WRITE YOU APP NAME HERE</p><p id="efde32e8-a40d-47f0-8097-29990eb47293" class="">Bundle ID: com.yourname.appename (don&#x27;t use capital word here)
+App ID Prefix → Select you team ID</p><p id="99eeb0f5-5f5d-4e28-97ed-6e83ecc21e69" class="">Example:</p><figure id="b153c417-d23a-40e8-9609-bbb111cae2a4" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Untitled%203.png"><img style="width:1010px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Untitled%203.png"/></a></figure><p id="86336fde-def8-4e2c-9829-366ae0fd0ed1" class="">once you have filled the information click on continue. Click on Register. Now you should be able to see your app in the identifiers section.</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="b99e4441-cb52-4121-809d-89d7f4909778"><div style="font-size:1.5em"><span class="icon">‼️</span></div><div style="width:100%">Write these information we are going to need them later.
+Bundle ID
+App Name
+Team ID</div></figure><h2 id="1b8d1efe-b484-4888-b575-626a523fc744" class="">Adding our phone as a tester device </h2><p id="c8092d88-ee55-4ad2-afc1-45405896d3c8" class="">Go to <a href="https://developer.apple.com/account/resources/identifiers/list">apple developer console</a> → Devices section → Click on pulse icon → </p><p id="2ff968dd-f08b-4a0d-aa93-bc7be505c29d" class="">Select Platform → For iPhone set to → iOS, tvOS,watchOS</p><p id="44b7fbaf-8e84-4231-8bb6-83ecf7c54c02" class="">Device Name → Give it a name</p><p id="505f9d7e-cd3a-4d29-8d3b-ef0e0d536c1c" class="">Device ID → Now we are going to learn how to get our phone UDID</p><p id="e51e9603-2611-4aaa-bbda-58d4f1242ce2" class="">Open the link below </p><figure id="71df82e9-fc7f-4d4c-9d1b-9ab6e0cee840"><a href="https://appforshare.io/get-udid" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">https://appforshare.io/get-udid</div></div></a></figure><p id="f61f7627-2d4c-47b1-95a4-b08de595971d" class="">Scan the QR code in this website using your iPhone.</p><p id="5cc053f5-be3f-43bd-b6c9-ced3dc94002a" class="">A website will open on your phone → Click on &quot;Click for your UDID&quot;</p><figure id="0fb6b5e8-c856-468b-a85f-914e129713c9" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/photo_2021-10-19_13-14-34.jpg"><img style="width:591px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/photo_2021-10-19_13-14-34.jpg"/></a></figure><p id="37544a8f-da66-4dd1-9773-5e12a21f87e2" class="">
+</p><p id="189cf023-89ba-4202-9fed-08bd6f47eda9" class="">This will download a profile into your phone. → Go to Settings → General → VPN &amp; Device Management → Select Get you UDID Profile</p><figure id="93fbaa6c-7d6c-4a45-9ecd-9c0b6f7d92fb" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/photo_2021-10-19_13-16-06.jpg"><img style="width:591px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/photo_2021-10-19_13-16-06.jpg"/></a></figure><p id="7f138482-15dc-4e95-a248-b6644371cefc" class="">Click on install. After installing a web page would open that show your device UDID save that.</p><p id="93d54d65-ab98-48a7-9787-230cefda8b1f" class="">After this you can go back and delete the profile we just installed on phone since we don&#x27;t need it any more.</p><p id="50492d7f-e67c-48a3-a450-84abb4a121d6" class="">
+</p><p id="5b2f5493-ca1f-4d96-ba65-27abb621251c" class="">Now enter the UDID in Apple developer console and click on continue and add you device register your device. This allows us to install our application on the device.</p><h2 id="47c10fef-2461-4f63-b92b-cb9a2fbd2036" class="">Creating Provisioning Profile</h2><p id="a07c72d7-53f1-46b2-8206-4ba91482bfd1" class="">Go to <a href="https://developer.apple.com/account/resources/identifiers/list">apple developer console</a> → Profile Section → Click on Pulse Icon → Select iOS App Development → Now you need to chose App ID → Select the App ID you created in the previous section → Click on continue → Select the apple development profile that we selected previously → Select your mobile device → Give the Provisioning Profile a name for example &quot;YourName Profile&quot; → Click on Generate → Click on Download → A new file will get downloaded with .mobileprovison extension → Move this file to our Apple Certificates folder</p><p id="ae0451f2-0f47-43f6-a5a7-9932cdc74c73" class="">
+</p><h2 id="8e8055e6-8659-4f30-9b0d-81d44f18e050" class="">Creating .p12 certificate</h2><p id="1650c438-2dab-47c1-b8cb-033595c7338e" class="">Git Bash to Apple Certificates folder → and run the bellow command </p><pre id="540f80c8-4705-4fee-9582-81e6b1e9bfe7" class="code"><code>openssl x509 -in  development.cer -inform DER -out YourApp.pem -outform PEM</code></pre><p id="b61116d4-47bb-4036-a914-6a113c30fb9b" class="">This will create a file called &quot;YourApp.pem&quot; in our Apple Certificates folder</p><p id="588296ff-11f4-4338-a421-5830750fe97c" class="">
+</p><p id="cb7b66dc-7510-4b84-bc21-ec2d8beda1d4" class="">Now we are are to create .p12 certificate folder, this will require you to enter a password. Make sure you remember this password as we need to use later.</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="e654d085-ebb1-460d-9f4f-6f6556df41ce"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Chane <mark class="highlight-red">0 </mark>to your password<mark class="highlight-red"> </mark></div></figure><pre id="d094c5f2-2f08-4518-8c75-9c87c70f4967" class="code"><code>openssl pkcs12 -password pass:0 -export -inkey YourApp.key -in YourApp.pem -out YourApp.p12</code></pre><p id="e0c53cec-ebb1-4d74-b630-9b6df4680eb2" class="">This will create a file called &quot;YourApp.p12&quot; in out Apple Certificates Folder.</p><p id="0ce1eb93-6762-444b-a8bd-8f10b174e5fa" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="6b140103-481a-417f-bfaf-5cd80adc729d"><div style="font-size:1.5em"><span class="icon">🎉</span></div><div style="width:100%">Finally we have everything ready for build!! 😅 </div></figure><h1 id="ee965ebc-e678-4c08-ade6-db4e5836be64" class="">Step 4</h1><h2 id="29bdd2d8-ef20-44a0-9d64-b3787ef62850" class="">Create/open your Unity project.</h2><p id="8f3f9724-108b-49b2-be58-91ce79563038" class="">Create a Unity project, we are going to use this project to build for our iOS device using Windows and Unity. If you already have a Unity project you can just open that.</p><h2 id="2b2b65f7-f95a-4871-8a0a-44b143cb2b7d" class="">Setting up project Build Setting</h2><p id="a0d5cad2-0639-4b8d-9bec-f746875c1ca8" class="">Click File → Build Setting → Player Settings → iOS Section → Other Settings → Go to Identification section → select Override Default bundle identifier → Set your bundle identifier (we made this previously in apple developer console) → Set you Signing Team ID (You can find this in <a href="https://developer.apple.com/account/resources/identifiers/list">apple developer console</a>  → Member ship → Team ID) → Enable Automatically Sign In </p><h1 id="fb4ae375-9195-487a-8f3c-6c635a6c0916" class="">Step 5</h1><h2 id="8d3f701a-d948-4287-bd77-072303eedec0" class="">Activate Could Build</h2><p id="16261a5e-40fe-4a76-8b80-0b83ea2d6733" class=""> Instead of building project on our machine we are going to use Unity service that build iOS application using could services.</p><p id="40f5b630-acda-4eed-bf57-2a0a5ef7b06b" class="">Click on → Mange Services (Button with cloud icon in Unity) → Then click on could build and turn it on </p><figure id="28a19d86-6e2e-4278-90eb-83680371d062" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_115516.png"><img style="width:439px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_115516.png"/></a></figure><p id="ccc22656-0dc7-4247-b90b-672981590c13" class="">
+</p><p id="7b07b9a3-078b-42ad-ae04-ed6167dfa64f" class="">A new windows will open → here you need to select your organization → set to you account → click on create project ID</p><figure id="8ca38b66-54d3-4215-baab-6b091e997e5d" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_115746.png"><img style="width:839px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_115746.png"/></a></figure><p id="a3bc6a30-5585-445f-b461-7e9afdfe7bc9" class="">After that make sure you click on cloud build again to turn it on</p><figure id="7d51fe27-e0a4-471c-899b-bbb61c14276b" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_115853.png"><img style="width:835px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_115853.png"/></a></figure><h1 id="e4f5d9f3-3de9-4923-828c-45e9aab39d3b" class="">Step 6</h1><h2 id="df3a7c18-8601-4a99-829b-6a83e8f2ab18" class="">Uploading our Unity Project to Git</h2><p id="ffa488f2-23bf-4eb1-9311-5e7f53e54f5a" class="">In order to use could build we need to upload our Unity project to a git repository. </p><p id="039b7481-5186-4ab4-a76a-bfd2b5f14cc4" class="">Open Git application → Click on Add → Create a new repository </p><figure id="cedaad5f-4049-428c-a1f6-0380983b63c5" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_133655.png"><img style="width:396px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_133655.png"/></a></figure><p id="34837a24-9cd7-43b8-96ca-eff88fa5d9b7" class="">
+</p><p id="32ab50bd-b4a1-47a8-9a26-72371b5c9d54" class="">Give it a name</p><p id="9b63cb13-ae4a-4fc5-9fde-47c5bc6ef424" class="">Chose a location for it</p><p id="e983137c-0fdd-44db-8994-41ac7f52638d" class="">Select Git ignore → Select Unity</p><p id="546d712b-4035-49f9-a136-95fb85a78e73" class="">
+</p><p id="7e1e21af-77ba-4a98-aee0-80dbe295b444" class="">Click on Create repository</p><figure id="fe68943c-20a9-49b9-b216-8e5888a1269f" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_133924.png"><img style="width:415px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_133924.png"/></a></figure><p id="a7e1a3f6-15af-4e37-9e42-8ad85167e52b" class="">Click on Publish repository </p><figure id="786a5c83-2572-4f4b-8890-8546c0a78517" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_134010.png"><img style="width:940px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_134010.png"/></a></figure><p id="b232bb42-f6f1-4707-8dbe-bd92ad5dc6c7" class="">Deselect → Keep this code private → Publish repository </p><p id="15198182-1a25-420b-bb92-caa68eac66db" class="">Now move your Unity project to this repository </p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="198c4b59-357e-49df-afb6-47ad4f34273e"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Note after this when you open your Unity project again for the first time you need to relocate it since we change the location.</div></figure><p id="f47fde53-225d-4573-9152-8567bf7b7cd1" class="">Now go to GitHub select the repository that we created → you should see some file change that is being highlighted by the GitHub </p><figure id="d70c502a-e35e-480d-b8cb-d3ecdd330172" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Untitled%204.png"><img style="width:826px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Untitled%204.png"/></a></figure><p id="37d2316a-43f7-4d0e-888b-abb6c14cae4b" class="">In Summary section write down project file → Click on Commit to main → Click on Push origin → Now we have uploaded our project file to out repository </p><p id="f2d5d209-9045-4063-bb90-9c735dfd8d7f" class="">
+</p><h1 id="dc2a08b4-46bb-4a11-ae8f-968357f912ab" class="">Step 7</h1><h2 id="25124e88-c040-4584-852f-3c26e118067c" class="">Setting Up Unity Could Build</h2><p id="bf23ee7a-8616-416f-8b2b-9eba82e6a51e" class="">Go to link below</p><figure id="94d644c3-a53e-4120-91b0-98aa3175e821"><a href="https://dashboard.unity3d.com/organizations/757893/projects/1e50ca93-6e30-49e6-b9fc-078463e66108/explore" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Unity Dashboard</div><div class="bookmark-description">Use Unity Dashboard to develop and operate your games.</div></div><div class="bookmark-href"><img src="https://dashboard.unity3d.com/favicon.ico" class="icon bookmark-icon"/>https://dashboard.unity3d.com/organizations/757893/projects/1e50ca93-6e30-49e6-b9fc-078463e66108/explore</div></div></a></figure><p id="6cc19201-7a0b-40f8-a32d-c2f66e86c22a" class="">Click on DevOps</p><figure id="73740906-ccab-4529-aebb-876e4c5580fd" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_134653.png"><img style="width:960px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_134653.png"/></a></figure><p id="4b6036ae-fc47-4984-8fa2-2597eacc1459" class="">Select you app in the bar and then select set up could build</p><figure id="468b63d5-b5c3-4cf4-9875-970f56e27e28" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_134749.png"><img style="width:1189px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_134749.png"/></a></figure><p id="b671d6d9-60a6-439f-bb8f-e118170ac01b" class="">Select GitHub → Here you need to sign to your GitHub and give unity permission to access it.</p><p id="9ffcae1a-5a35-4637-a0a5-9c61d893b297" class="">Chose the repository we created → Click on Next: TARGET SETUP</p><p id="18a8149a-2372-479b-b654-af5af711e92e" class="">
+</p><p id="5920d203-fc9e-4d3d-9ff5-a5ccb2a06a44" class="">In Cofig panel Click a new Setup New Target → </p><figure id="680f8fa5-a09f-4fcb-827e-a727eab178c6" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_135229.png"><img style="width:912px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_135229.png"/></a></figure><p id="a1d4d87c-a0ca-4f90-8474-a34259156f45" class="">Click on iOS → </p><p id="093dda47-515b-4fa0-b067-5047a08e4314" class="">Project Subfolder → This should be change to folder name of your project folder. If you are not sure open your repository and see the folder name inside</p><p id="998ef490-3751-49e5-833a-771ea614e8b0" class="">Unity version → Select the unity version which your project was made in</p><p id="0bbfdcc3-e415-460e-ad42-49df120ff1c9" class="">→ Click on Next: Credentials</p><p id="5de8ab8d-e067-4f0f-b86e-6d3ea6dacf2a" class="">Now write down Bundle ID, we created this before in apple developer console</p><p id="ca2f6206-66bc-4e56-bd42-113ba7e586a3" class="">Give your device a name.</p><p id="a0dd7cb6-df75-4610-9a41-c53eda863331" class="">Upload the mobile prov file and p12 file from the Apple Certificates folder. </p><p id="c41ad063-ef79-4848-8160-3ea54c25f890" class="">Enter the p12 Password which we created.</p><figure id="fd2fda35-d6d9-48a0-a5d0-8f6f73ab7dc8" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_135615.png"><img style="width:1122px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_135615.png"/></a></figure><p id="db4e4a41-2ca9-4497-b2e7-1e97080a95ab" class="">Click Next:Build → Now Unity will start building your application </p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="0f101592-9530-42f1-b5f7-195709b3ece5"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">This might take a while depending on the size of your project . Unity could build is a bit slow.</div></figure><figure id="b7e634f6-7848-443f-8732-dd405b6a5bf2" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Untitled%205.png"><img style="width:907px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Untitled%205.png"/></a></figure><p id="3a5053ff-b8fa-46f4-a11d-cdf188a8811d" class="">If build is successful you get this message</p><figure id="ac2490c5-2321-4cfc-bf04-5c780ebb480f" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_204730.png"><img style="width:1216px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_204730.png"/></a></figure><p id="3c7a19ea-0ae9-49d0-bfd4-629674cc7e91" class="">
+</p><p id="6f531b4a-bae1-498e-adb9-460214cba8a6" class="">Let&#x27;s make sure if your apple developer credential have been accepted by unity → </p><p id="fc774957-4fee-4910-b2d0-57ba73a2fe3e" class="">Go to Config → Signing Credentials→</p><p id="8e63ad5d-18c6-4714-81dc-e77fa743a12c" class="">If you see Provisioning Profile and p12 File marked as <mark class="highlight-teal">VALID </mark>it means your profile has been setup correctly. 🥳🎉</p><figure id="8f1ac917-4940-4862-b1f2-7a661b61a13e" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_204848.png"><img style="width:1890px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_204848.png"/></a></figure><h2 id="8621523b-f4d8-43c5-a519-ce9f135e096b" class="">Checking the status of Build</h2><p id="ed0a8f3c-1c3a-4bc4-ad0a-482ea24491cc" class="">In Unity dashboard just go Build History and you can see if your project has been build or not.</p><p id="828e7cb7-d43a-430f-874e-162ce660a580" class="">
+</p><h2 id="4d422ab5-f64a-4169-a869-02110b838a5d" class="">Build Successful, Phone Install</h2><p id="7238ee54-586e-4261-ad6d-8e80f21d1131" class="">Once the build has been finished, if it is successful. Unity will send you an email to your email address with the link to download the application.</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="235a87cc-3c64-4a9e-b9a8-7e882ccae977"><div style="font-size:1.5em"><span class="icon">❗</span></div><div style="width:100%">If you build fail Unity will tell the error message so you can try to resolve it.</div></figure><p id="07613fdf-215a-47bb-87f3-2055526478ab" class="">Open that email on your phone → Click on Install → A web page will open → Here you need to sign in into your Unity account </p><figure id="32128f84-15f1-4744-9027-c3b35f7fb674" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/photo_2021-10-19_20-56-08.png"><img style="width:591px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/photo_2021-10-19_20-56-08.png"/></a></figure><p id="4e8c3f84-45f5-4a6e-a1c2-026dc2b842b1" class="">
+</p><p id="49a6de99-b162-4eab-870f-1084a5add8b0" class="">Click on Install </p><p id="d3483cbc-f60e-4e09-9982-c46905eb7744" class="">
+</p><figure id="47227a68-50c4-46ff-98d5-31477c5b709f" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/photo_2021-10-19_21-00-23.jpg"><img style="width:591px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/photo_2021-10-19_21-00-23.jpg"/></a></figure><p id="20f842cd-922a-4c9c-92cb-7a86469add6c" class="">Unity will ask you to install a profile on your phone to verify your UDID. Go to your phone setting → General → VPN &amp; Device Management → Click on Unity Profile and install it</p><p id="b4eae271-e6b2-44cf-bd4a-73dcc4270cbf" class="">
+</p><p id="9eeda072-8301-4ee5-a014-cf102cf3f3b0" class="">Now go back to the Unity page and click on install. Unity will start downloading the app and install it on your phone. </p><p id="3909362d-c178-49d8-bdf0-3a4c3e7b4340" class=""> </p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="464c54cd-55cf-47cc-b510-92764ad5294e"><div style="font-size:1.5em"><span class="icon">❗</span></div><div style="width:100%">Unity doesn&#x27;t really give any indication that the app is being download and installing.
+Wait for a bit and the app should show up in your home screen. </div></figure><p id="911234f5-5e92-4419-9225-a31d848c3574" class="">
+</p><p id="474cf52f-1479-4c24-82bc-0548738f8026" class="">Click on the app and it should open!</p><figure id="7c0c8241-7a9d-4fd9-bd2a-072593fffc86" class="image"><a href="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_210516.png"><img style="width:862px" src="Guide%20How%20to%20Build%20Unity%20On%20Windows%20for%20iOS%205fc760e5f97c488fbccacddf24faac40/Screenshot_2021-10-19_210516.png"/></a></figure><p id="993a59a1-13ad-40b6-9f0e-38c9d55537bf" class="">
+</p><h1 id="d1b9e762-02e1-4d05-b9ae-a3aa75e69dd7" class="">Step 8</h1><h2 id="a50d2929-5d4d-42aa-aaca-2d416beef4e2" class="">How to build the project again</h2><p id="33c313ba-44f2-4c50-960d-807f5af2993a" class="">You might add some changes to your project and might need to build it again then all you have to do push the changes to git repository we created. So just add your changes to Unity file and close Unity once you are done. </p><p id="f5ac8e93-fa0e-46ac-aef5-22e8711d83d6" class="">
+</p><p id="7239b8e2-23c8-4369-a546-543d6f823087" class="">Open GitHub → Select your repository → In the Summary section write down a brief description of your changes → Click commit → Click on Push origin </p><p id="d0ac2e8e-a1cf-4277-9e41-06f6fbe27379" class="">
+</p><p id="656dffe6-b2b0-4723-bc49-175fd765420a" class="">This will upload the file to repository. Unity will automatically build the file every time the repository changes so you don&#x27;t have to do anything.</p><p id="4d48d638-bada-4f8f-85c0-94c0a92d122f" class="">
+</p><p id="590a048c-a048-411c-a85a-8c5142375152" class="">Once the build finished Unity will send you an email. You can also check the status of build in Unity dashboard build history section.</p><figure id="850d63dc-c344-40b3-8f8d-7f241b57193c"><a href="https://dashboard.unity3d.com/organizations/757893/projects/1e50ca93-6e30-49e6-b9fc-078463e66108/explore" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Unity Dashboard</div><div class="bookmark-description">Use Unity Dashboard to develop and operate your games.</div></div><div class="bookmark-href"><img src="https://dashboard.unity3d.com/favicon.ico" class="icon bookmark-icon"/>https://dashboard.unity3d.com/organizations/757893/projects/1e50ca93-6e30-49e6-b9fc-078463e66108/explore</div></div></a></figure></div></article></body></html>
